@@ -355,8 +355,10 @@ dsh использует `link(tmp -> final)` для «атомарной пуб
 python3 patch-link.py "$(npm root -g)/@deepseek-ai/dsh"
 ```
 
-> **Обязательно проверяй синтаксис после патча** — этот фикс добавляет вложенные
-> `try`/`catch` и легко получить незакрытую скобку:
+> **Проверять синтаксис после патча — всё равно полезно** (фикс добавляет вложенные
+> `try`/`catch`), но в версии скрипта от 17.10.2026 незакрытая скобка устранена:
+> в `NEW_ATT`/`NEW_ATT2` добавлено закрытие `else {`. Проверка на чистом
+> `dsh-attachment-local@0.2.1-rc.2`: после патча `node --check` проходит.
 >
 > ```bash
 > for p in dsh-session-persistence-jsonl dsh-attachment-local dsh-fs-local; do
@@ -364,8 +366,10 @@ python3 patch-link.py "$(npm root -g)/@deepseek-ai/dsh"
 > done
 > ```
 >
-> Именно так и вышло при первом применении: `attachment-local` сломался на
-> незакрытом `else {`, диагностировался `node --check` и правился вручную.
+> Историческая справка: в прежней версии скрипта `attachment-local` ломался на
+> незакрытом `else {` в ДВУХ местах (`publishImmutableAlias` и
+> `publishStagedObject`) — симптом `failed to import: SyntaxError: Unexpected
+> token 'catch'` при загрузке профиля, лечился вставкой `}` вручную.
 
 > **Не берите чистую копию из бэкапа** для отката этого патча: версии пакетов
 > между релизами dsh различаются (`dsh-attachment-local` 0.1.5-rc.2 против

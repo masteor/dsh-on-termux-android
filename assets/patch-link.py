@@ -149,7 +149,8 @@ NEW_ATT = """\t\ttry {
 \t\t\t\tawait rename(source, target);
 \t\t\t} else {
 \t\t\t/* v8 ignore next -- Private same-filesystem directories make EEXIST the only recoverable link race. */
-\t\t\tif (!(error instanceof Error && "code" in error && error.code === "EEXIST")) throw error;"""
+\t\t\tif (!(error instanceof Error && "code" in error && error.code === "EEXIST")) throw error;
+\t\t\t}"""
 
 OLD_ATT2 = """\t\ttry {
 \t\t\tawait link(staged.path, target);
@@ -165,7 +166,8 @@ NEW_ATT2 = """\t\ttry {
 \t\t\t\tawait rename(staged.path, target);
 \t\t\t} else {
 \t\t\t/* v8 ignore next -- Private same-filesystem directories make EEXIST the only recoverable link race. */
-\t\t\tif (!(error instanceof Error && "code" in error && error.code === "EEXIST")) throw error;"""
+\t\t\tif (!(error instanceof Error && "code" in error && error.code === "EEXIST")) throw error;
+\t\t\t}"""
 
 
 def patch_attachment(root: str) -> int:
